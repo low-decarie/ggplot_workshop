@@ -9,26 +9,11 @@ ggplot2
 author: Etienne Low-Décarie
 transition: rotate
 
-About you
-===
+January 5, 2017  
+Presentation:  
+Code:  
 
 
-
-
-Material
-===
-
-To view presentations:   
-search: low-decarie wrangling github
-
-[http://low-decarie.github.io/Data_wrangling_and_plotting/#/](http://low-decarie.github.io/Data_wrangling_and_plotting)
-
-To view code that generated presentations:  
-https://github.com/low-decarie/Data_wrangling_and_plotting  
-You can look at the `.Rpres` files that generated these presentations  
-You can run the code in these presentation (even all of it, using Chunks>Run All)
-
-There is a folder called `./Data/` that contains data relavant to some of the exercises
 
 
 
@@ -64,12 +49,14 @@ Outline (ggplot2)
     + More advanced plots
     + Available plot elements and when to use them
     + Exercise 2
-3. Saving a plot
-  + Exercise 3
-  + Challenge
+
   
 ***
 
+Tomorrow:
+3. Saving a plot
+  + Exercise 3
+  + Challenge
 4. Expanding ggplot    
 5. Fine tuning your plot
     + colours
@@ -456,6 +443,24 @@ var myCountdown3 = new Countdown({
 </div>
 
 
+
+
+
+Tomorrow
+===
+
+3. Saving a plot
+  + Exercise 3
+  + Challenge
+4. Expanding ggplot    
+5. Fine tuning your plot
+    + colours
+    + themes
+6. Maps (time permitting)
+
+
+
+
 Saving plots
 ===
 
@@ -549,44 +554,6 @@ autoplot(lm.SR)
 help(package=ggfortify)
 ```
 
-Vegan users
-===
-
-```{r fig.width=3, fig.height=3,echo=T}
-if(!require(devtools)) {install.packages("devtools")}
-require(devtools)
-if(!require(ggvegan)) {install_github("gavinsimpson/ggvegan")}
-require(ggvegan)
-data(dune)
-data(dune.env)
-```
-
-Vegan users
-===
-
-```{r fig.width=5, fig.height=5,echo=T,eval=T}
-sol <- cca(dune ~ A1 + Management,
-           data = dune.env)
-autoplot(sol)
-```
-
-Vegan users
-===
-
-```{r fig.width=3, fig.height=3,echo=T}
-autoplot(sol) + theme_bw()
-```
-
-
-
-Using the right tool for the right situation
-===
-
-base R `plot` function has methods for many different object types
-
-```{r fig.width=3, fig.height=3,echo=T}
-normal.plot <- plot(sol)
-```
 
 
 Fine tunning: Scales
@@ -691,10 +658,10 @@ or
 `plot+theme()`
 
 ```{r fig.width=8, fig.height=3,echo=T}
-bw <- basic.plot+theme_bw()
-grey <- basic.plot+theme_bw()
+dark <- basic.plot+theme_dark()
+minimal <- basic.plot+theme_minimal()
 
-grid.arrange(basic.plot, bw, grey, nrow=1)
+grid.arrange(basic.plot, dark, minimal, nrow=1)
 ```
 
 
@@ -709,6 +676,40 @@ mytheme_plot <- basic.plot + mytheme
 
 grid.arrange(basic.plot, mytheme_plot, nrow=1)
 ```
+
+
+Bonus: xkcd
+===
+
+<iframe src="http://xkcd.com" width="1000" height="800">
+  <p>Your browser does not support iframes.</p>
+</iframe>
+
+
+Bonus: xkcd
+===
+```{r fig.width=3, fig.height=3,eval=F}
+#install.packages("xkcd")
+#install xkcd font: "http://simonsoftware.se/other/xkcd.ttf"
+#import font : font_import(pattern = "[X/x]kcd", prompt=FALSE)
+#loadfonts()
+require(xkcd)
+require(extrafont)
+
+xrange <- range(iris$Sepal.Length)
+yrange <- range(iris$Sepal.Width)
+
+print(basic.plot+
+  xkcdaxis(xrange,yrange)+
+    theme(text=element_text(family = "xkcd")))
+
+```
+
+Bonus: xkcd
+===
+
+
+![xkcd plot](./ggplot2_images/xkcd_plot.png)
 
 
 Challenge

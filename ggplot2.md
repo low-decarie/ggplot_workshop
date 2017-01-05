@@ -9,26 +9,11 @@ ggplot2
 author: Etienne Low-Décarie
 transition: rotate
 
-About you
-===
+January 5, 2017  
+Presentation:  
+Code:  
 
 
-
-
-Material
-===
-
-To view presentations:   
-search: low-decarie wrangling github
-
-[http://low-decarie.github.io/Data_wrangling_and_plotting/#/](http://low-decarie.github.io/Data_wrangling_and_plotting)
-
-To view code that generated presentations:  
-https://github.com/low-decarie/Data_wrangling_and_plotting  
-You can look at the `.Rpres` files that generated these presentations  
-You can run the code in these presentation (even all of it, using Chunks>Run All)
-
-There is a folder called `./Data/` that contains data relavant to some of the exercises
 
 
 
@@ -61,12 +46,14 @@ Outline (ggplot2)
     + More advanced plots
     + Available plot elements and when to use them
     + Exercise 2
-3. Saving a plot
-  + Exercise 3
-  + Challenge
+
   
 ***
 
+Tomorrow:
+3. Saving a plot
+  + Exercise 3
+  + Challenge
 4. Expanding ggplot    
 5. Fine tuning your plot
     + colours
@@ -468,6 +455,24 @@ var myCountdown3 = new Countdown({
 </div>
 
 
+
+
+
+Tomorrow
+===
+
+3. Saving a plot
+  + Exercise 3
+  + Challenge
+4. Expanding ggplot    
+5. Fine tuning your plot
+    + colours
+    + themes
+6. Maps (time permitting)
+
+
+
+
 Saving plots
 ===
 
@@ -568,56 +573,197 @@ autoplot(lm.SR)
 help(package=ggfortify)
 ```
 
-Vegan users
+
+
+Fine tunning: Scales
 ===
+class: small-code
+
+
+```r
+CO2.plot +
+  scale_y_continuous(name = "CO2 uptake rate",
+                     breaks = seq(5,50, by= 10),
+                     labels = seq(5,50, by= 10), 
+                     trans="log10")
+```
+
+![plot of chunk unnamed-chunk-30](ggplot2-figure/unnamed-chunk-30-1.png)
+
+Fine tunning: Scales
+===
+
+
+```r
+CO2.plot+
+  scale_colour_brewer()
+```
+
+![plot of chunk unnamed-chunk-31](ggplot2-figure/unnamed-chunk-31-1.png)
+
+Fine tunning: Scales
+===
+
+
+```r
+CO2.plot+
+  scale_colour_manual(values=c("nonchilled"="red",
+                               "chilled"="blue"))
+```
+
+![plot of chunk unnamed-chunk-32](ggplot2-figure/unnamed-chunk-32-1.png)
+
+
+Fine tunning: Scales
+===
+Bonus!!! Wes Anderson colour palette
+
+![darjeelinglimited](./ggplot2_images/darjeelinglimited.jpg)
+
+Fine tunning: Scales
+===
+Bonus!!! Wes Anderson colour palette
 
 
 ```r
 if(!require(devtools)) {install.packages("devtools")}
 require(devtools)
-if(!require(ggvegan)) {install_github("gavinsimpson/ggvegan")}
-require(ggvegan)
-data(dune)
-data(dune.env)
+if(!require(wesanderson)){
+devtools::install_github("karthik/wesanderson")}
+require(wesanderson)
 ```
 
-Vegan users
+Fine tunning: Scales
+===
+Bonus!!! Wes Anderson colour palette
+
+
+```r
+require(wesanderson)
+basic.plot + 
+  scale_color_manual(values = wesanderson::wes_palette("Darjeeling",3)) 
+```
+
+![plot of chunk unnamed-chunk-34](ggplot2-figure/unnamed-chunk-34-1.png)
+
+Fine tuning: Multiple plots
 ===
 
 
 
+```r
+if(!require(gridExtra)) {install.packages("gridExtra")}
+require(gridExtra)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+grid.arrange(basic.plot, CO2.plot)
 ```
-Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
-  namespace 'scales' 0.4.0 is already loaded, but >= 0.4.1 is required
-In addition: Warning message:
-In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE,  :
-  there is no package called 'ggvegan'
-Quitting from lines 568-571 (ggplot2.Rpres) 
-Error: Objects of type cca not supported by autoplot.
-Execution halted
+
+![plot of chunk unnamed-chunk-35](ggplot2-figure/unnamed-chunk-35-1.png)
+
+Fine tuning: Multiple plots
+===
+class: small-code
+
+Sub-plots can be aligned and matched in size
+
+
+```r
+basic.plot.table <- ggplot_gtable(ggplot_build(basic.plot))
+CO2.plot.table <- ggplot_gtable(ggplot_build(CO2.plot))
+maxWidth = grid::unit.pmax(basic.plot.table$widths[2:3],
+                           CO2.plot.table$widths[2:3])
+basic.plot.table$widths[2:3] <- as.list(maxWidth)
+CO2.plot.table$widths[2:3] <- as.list(maxWidth)
 ```
+
+Fine tuning: Multiple plots
+===
+Sub-plots can be aligned and matched in size
+
+
+```r
+grid.arrange(basic.plot.table, 
+             CO2.plot.table,
+             ncol=1)
+```
+
+![plot of chunk unnamed-chunk-37](ggplot2-figure/unnamed-chunk-37-1.png)
+
+Fine tuning: Themes
+===
+
+`theme_set(theme())`  
+or  
+`plot+theme()`
+
+
+```r
+dark <- basic.plot+theme_dark()
+minimal <- basic.plot+theme_minimal()
+
+grid.arrange(basic.plot, dark, minimal, nrow=1)
+```
+
+![plot of chunk unnamed-chunk-38](ggplot2-figure/unnamed-chunk-38-1.png)
+
+
+Fine tuning: Themes
+===
+class: small-code
+
+
+```r
+mytheme <- theme_grey() +
+ theme(plot.title = element_text(colour = "red"))
+mytheme_plot <- basic.plot + mytheme
+
+grid.arrange(basic.plot, mytheme_plot, nrow=1)
+```
+
+![plot of chunk unnamed-chunk-39](ggplot2-figure/unnamed-chunk-39-1.png)
+
+
+Bonus: xkcd
+===
+
+<iframe src="http://xkcd.com" width="1000" height="800">
+  <p>Your browser does not support iframes.</p>
+</iframe>
+
+
+Bonus: xkcd
+===
+
+```r
+#install.packages("xkcd")
+#install xkcd font: "http://simonsoftware.se/other/xkcd.ttf"
+#import font : font_import(pattern = "[X/x]kcd", prompt=FALSE)
+#loadfonts()
+require(xkcd)
+require(extrafont)
+
+xrange <- range(iris$Sepal.Length)
+yrange <- range(iris$Sepal.Width)
+
+print(basic.plot+
+  xkcdaxis(xrange,yrange)+
+    theme(text=element_text(family = "xkcd")))
+```
+
+Bonus: xkcd
+===
+
+
+![xkcd plot](./ggplot2_images/xkcd_plot.png)
+
+
+Challenge
+===
+
+Using figure from previous challenge (or other dryad.org paper/data), edit figure to match a journal's style requirements
+
+Example: try to reproduce Figure 3 in:
+Lucek K, Sivasundar A, Roy D, Seehausen O (2013) Repeated and predictable patterns of ecotypic differentiation during a biological invasion: lake-stream divergence in parapatric Swiss stickleback. Journal of Evolutionary Biology 26(12): 2691–2709. 
+
+[paper](http://dx.doi.org/10.1111/jeb.12267)  
+[data](http://dx.doi.org/10.5061/dryad.0nh60)  
