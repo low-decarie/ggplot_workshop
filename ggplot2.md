@@ -34,10 +34,7 @@ Beautiful and flexible!
 
 ![Pretty ggplots](./ggplot2_images/pretty_examples.png)
 
-```{r fig.width=7, fig.height=6,echo=FALSE}
-# img <- readPNG("./ggplot2_images/pretty_examples.png")
-#  grid.raster(img)
-```
+
 
 Outline (ggplot2)
 ===
@@ -70,7 +67,8 @@ A few pet peeves
 - Always work from a script
 - Use carriage returns and indentation
 
-```{r eval=F}
+
+```r
 object <- function(argument1="value1",
                    argument2="value2",
                    argument3="value3")
@@ -80,17 +78,15 @@ object <- function(argument1="value1",
   + refer to provided code only if needed
   + don't just copy paste from the presentation
 
-```{r fig.width=7, fig.height=6,echo=FALSE}
-library(png)
-library(grid)
-```
+
 
 
 
 Install/load ggplot2
 ===
 
-```{r}
+
+```r
 if(!require(ggplot2)){install.packages("ggplot2")}
 require(ggplot2)
 ```
@@ -102,7 +98,8 @@ Your first ggplot
 ===
 
 A basic scatter plot
-```{r fig.width=3, fig.height=3, eval=F}
+
+```r
 qplot(data=iris,
       x=Sepal.Length,
       y=Sepal.Width)
@@ -110,24 +107,24 @@ qplot(data=iris,
 
 ***
 
-```{r fig.width=3, fig.height=3, echo=F}
-qplot(data=iris,
-      x=Sepal.Length,
-      y=Sepal.Width)
-```
+![plot of chunk unnamed-chunk-6](ggplot2-figure/unnamed-chunk-6-1.png)
 
 
 Categorical x-axis  
 ===
-```{r fig.width=4, fig.height=4}
+
+```r
 qplot(data=iris,
       x=Species,
       y=Sepal.Width)
 ```
 
+![plot of chunk unnamed-chunk-7](ggplot2-figure/unnamed-chunk-7-1.png)
+
 Less basic scatter plot
 ===
-```{r}
+
+```r
 ?qplot
 ```
 
@@ -145,7 +142,8 @@ main
 Less basic scatter plot 
 ===
 
-```{r fig.width=4, fig.height=4}
+
+```r
 qplot(data=iris,
       x=Sepal.Length,
       xlab="Sepal Width (mm)",
@@ -153,6 +151,8 @@ qplot(data=iris,
       ylab="Sepal Length (mm)",
       main="Sepal dimensions")
 ```
+
+![plot of chunk unnamed-chunk-9](ggplot2-figure/unnamed-chunk-9-1.png)
 
 
 
@@ -228,39 +228,28 @@ Editing an element produces a new graph
 e.g. just change the coordinate system
 
 
-```{r fig.width=3, fig.height=3,echo=FALSE}
-DF <- data.frame(variable = LETTERS[1:10], value = sample(10,
-                                                 replace = TRUE))
-
-p_bar <- ggplot(data=DF, 
-                aes(x=variable,
-              fill=variable,
-              y=value))+
-                geom_bar(stat="identity")
-print(p_bar)
-
-p_polar <- p_bar + coord_polar()
-
-print(p_polar)
-```
+![plot of chunk unnamed-chunk-10](ggplot2-figure/unnamed-chunk-10-1.png)![plot of chunk unnamed-chunk-10](ggplot2-figure/unnamed-chunk-10-2.png)
 
 
 How it works
 ===
 
 - 1. create a simple plot object
-```{r eval=FALSE}
+
+```r
 plot.object<-qplot()
 or
 plot.object<-ggplot()
 ```
 - 2. add graphical layers/complexity
-```{r eval=FALSE}
+
+```r
 plot.object<-plot.object+layer()
 ```
 - 3. repeat step 2 until satisfied  
 - 4. print your object to screen (or to graphical device)  
-```{r  eval=FALSE}
+
+```r
 print(plot.object)
 ```
 
@@ -268,7 +257,8 @@ print(plot.object)
 Scatter plot as an R object
 ===
 
-```{r fig.width=3, fig.height=3,echo=T}
+
+```r
 basic.plot<-qplot(data=iris,
                   x=Sepal.Length,
                   xlab="Sepal Width (mm)",
@@ -279,6 +269,8 @@ basic.plot<-qplot(data=iris,
 print(basic.plot)
 ```
 
+![plot of chunk unnamed-chunk-14](ggplot2-figure/unnamed-chunk-14-1.png)
+
 
 Using ggplot function
 ===
@@ -286,7 +278,8 @@ Using ggplot function
 more powerful, more complicated
 Note: aes() and geom_point()
 
-```{r fig.width=4, fig.height=4}
+
+```r
 basic.plot<- ggplot(data=iris)+
                aes(x=Sepal.Length,
                   xlab="Sepal Width (mm)",
@@ -302,7 +295,8 @@ now required to use stat=""
 Scatter plot with colour and shape
 ===
 
-```{r fig.width=3, fig.height=3,echo=T}
+
+```r
 basic.plot <- basic.plot+
               aes(colour=Species,
                   shape=Species)
@@ -310,17 +304,22 @@ basic.plot <- basic.plot+
 print(basic.plot)
 ```
 
+![plot of chunk unnamed-chunk-16](ggplot2-figure/unnamed-chunk-16-1.png)
+
 
 Scatter plot with linear regression
 ===
 
 Add a geom (eg. linear smooth)
 
-```{r fig.width=3, fig.height=3,echo=T}
+
+```r
 linear.smooth.plot <- basic.plot+
 			  geom_smooth(method="lm", se=F)
                          print(linear.smooth.plot)
 ```
+
+![plot of chunk unnamed-chunk-17](ggplot2-figure/unnamed-chunk-17-1.png)
 
 
 Exercise 2
@@ -422,7 +421,8 @@ Tomorrow
 Saving plots
 ===
 
-```{r  eval=FALSE}
+
+```r
 pdf("./Plots/todays_plots.pdf")
   print(basic.plot)
   print(plot.with.linear.smooth)
@@ -439,14 +439,16 @@ Saving plots
 
 ggsave: saves last plot and guesses format from file name
 
-```{r  eval=FALSE}
+
+```r
 ggsave("./Plots/todays_plots.jpeg", basic.plot)
 ```
 
 Using facets and groups: the basic plot
 ===
 
-```{r fig.width=8, fig.height=4,echo=T}
+
+```r
 CO2.plot<-qplot(data=CO2,
                 x=conc,
                 y=uptake,
@@ -455,57 +457,75 @@ CO2.plot<-qplot(data=CO2,
 print(CO2.plot)
 ```
 
+![plot of chunk unnamed-chunk-20](ggplot2-figure/unnamed-chunk-20-1.png)
+
 Facets
 ===
 
-```{r  eval=FALSE}
+
+```r
 plot.object<-plot.object + facet_grid(rows~columns)
 ```
                          
                          
-```{r fig.width=8, fig.height=4,echo=T}
+
+```r
 CO2.plot<-CO2.plot+facet_grid(.~Type)
 print(CO2.plot)
 ```
+
+![plot of chunk unnamed-chunk-22](ggplot2-figure/unnamed-chunk-22-1.png)
 
 Groups
 ===
 
 Problems when adding the geom_line
 
-```{r fig.width=8, fig.height=4,echo=T}
+
+```r
 print(CO2.plot+geom_line())
 ```
+
+![plot of chunk unnamed-chunk-23](ggplot2-figure/unnamed-chunk-23-1.png)
 
 Groups
 ===
 
 Solution: specify groups
 
-```{r fig.width=8, fig.height=4,echo=T}
+
+```r
 CO2.plot<-CO2.plot+geom_line(aes(group=Plant))
 print(CO2.plot)
 ```
 
+![plot of chunk unnamed-chunk-24](ggplot2-figure/unnamed-chunk-24-1.png)
+
 Using the right tool for the right situation
 ===
 base R `plot` function has methods for many different object types
 
-```{r fig.width=3, fig.height=3,echo=T}
+
+```r
 plot(iris)
 ```
 
+![plot of chunk unnamed-chunk-25](ggplot2-figure/unnamed-chunk-25-1.png)
+
 
 Using the right tool for the right situation
 ===
 
 base R `plot` function has methods for many different object types
 
-```{r fig.width=3, fig.height=3,echo=T}
+
+```r
 lm.SR <- lm(sr ~ pop15 + pop75 + dpi + ddpi,
             data = LifeCycleSavings)
 plot(lm.SR)
 ```
+
+![plot of chunk unnamed-chunk-26](ggplot2-figure/unnamed-chunk-26-1.png)![plot of chunk unnamed-chunk-26](ggplot2-figure/unnamed-chunk-26-2.png)![plot of chunk unnamed-chunk-26](ggplot2-figure/unnamed-chunk-26-3.png)![plot of chunk unnamed-chunk-26](ggplot2-figure/unnamed-chunk-26-4.png)
 
 
 Challenge
@@ -536,21 +556,20 @@ Extending ggplot
 `ggfortify` provides `autoplot`and  
 `fortify` for common models
 
-```{r fig.width=3, fig.height=3,echo=T, eval=F}
+
+```r
 require(ggfortify)
 autoplot(lm.SR)
 ```
 
 ***
 
-```{r fig.width=5, fig.height=5,echo=F}
-require(ggfortify)
-autoplot(lm.SR)
-```
+![plot of chunk unnamed-chunk-28](ggplot2-figure/unnamed-chunk-28-1.png)
 
 ===
 
-```{r fig.width=3, fig.height=3,echo=T}
+
+```r
 help(package=ggfortify)
 ```
 
@@ -560,7 +579,8 @@ Fine tunning: Scales
 ===
 class: small-code
 
-```{r fig.width=3, fig.height=3,echo=T}
+
+```r
 CO2.plot +
   scale_y_continuous(name = "CO2 uptake rate",
                      breaks = seq(5,50, by= 10),
@@ -568,22 +588,30 @@ CO2.plot +
                      trans="log10")
 ```
 
+![plot of chunk unnamed-chunk-30](ggplot2-figure/unnamed-chunk-30-1.png)
+
 Fine tunning: Scales
 ===
 
-```{r fig.width=3, fig.height=3,echo=T}
+
+```r
 CO2.plot+
   scale_colour_brewer()
 ```
 
+![plot of chunk unnamed-chunk-31](ggplot2-figure/unnamed-chunk-31-1.png)
+
 Fine tunning: Scales
 ===
 
-```{r fig.width=3, fig.height=3,echo=T}
+
+```r
 CO2.plot+
   scale_colour_manual(values=c("nonchilled"="red",
                                "chilled"="blue"))
 ```
+
+![plot of chunk unnamed-chunk-32](ggplot2-figure/unnamed-chunk-32-1.png)
 
 
 Fine tunning: Scales
@@ -596,7 +624,8 @@ Fine tunning: Scales
 ===
 Bonus!!! Wes Anderson colour palette
 
-```{r fig.width=3, fig.height=3,echo=T}
+
+```r
 if(!require(devtools)) {install.packages("devtools")}
 require(devtools)
 if(!require(wesanderson)){
@@ -608,22 +637,28 @@ Fine tunning: Scales
 ===
 Bonus!!! Wes Anderson colour palette
 
-```{r fig.width=3, fig.height=3,echo=T}
+
+```r
 require(wesanderson)
 basic.plot + 
   scale_color_manual(values = wesanderson::wes_palette("Darjeeling",3)) 
 ```
 
+![plot of chunk unnamed-chunk-34](ggplot2-figure/unnamed-chunk-34-1.png)
+
 Fine tuning: Multiple plots
 ===
 
 
-```{r fig.width=5, fig.height=5,echo=T}
+
+```r
 if(!require(gridExtra)) {install.packages("gridExtra")}
 require(gridExtra)
 
 grid.arrange(basic.plot, CO2.plot)
 ```
+
+![plot of chunk unnamed-chunk-35](ggplot2-figure/unnamed-chunk-35-1.png)
 
 Fine tuning: Multiple plots
 ===
@@ -631,24 +666,28 @@ class: small-code
 
 Sub-plots can be aligned and matched in size
 
-```{r fig.width=5, fig.height=5,echo=T}
+
+```r
 basic.plot.table <- ggplot_gtable(ggplot_build(basic.plot))
 CO2.plot.table <- ggplot_gtable(ggplot_build(CO2.plot))
 maxWidth = grid::unit.pmax(basic.plot.table$widths[2:3],
                            CO2.plot.table$widths[2:3])
 basic.plot.table$widths[2:3] <- as.list(maxWidth)
 CO2.plot.table$widths[2:3] <- as.list(maxWidth)
-```  
+```
 
 Fine tuning: Multiple plots
 ===
 Sub-plots can be aligned and matched in size
 
-```{r fig.width=5, fig.height=5,echo=T}
+
+```r
 grid.arrange(basic.plot.table, 
              CO2.plot.table,
              ncol=1)
 ```
+
+![plot of chunk unnamed-chunk-37](ggplot2-figure/unnamed-chunk-37-1.png)
 
 Fine tuning: Themes
 ===
@@ -657,25 +696,31 @@ Fine tuning: Themes
 or  
 `plot+theme()`
 
-```{r fig.width=8, fig.height=3,echo=T}
+
+```r
 dark <- basic.plot+theme_dark()
 minimal <- basic.plot+theme_minimal()
 
 grid.arrange(basic.plot, dark, minimal, nrow=1)
 ```
 
+![plot of chunk unnamed-chunk-38](ggplot2-figure/unnamed-chunk-38-1.png)
+
 
 Fine tuning: Themes
 ===
 class: small-code
 
-```{r fig.width=8, fig.height=3,echo=T}
+
+```r
 mytheme <- theme_grey() +
  theme(plot.title = element_text(colour = "red"))
 mytheme_plot <- basic.plot + mytheme
 
 grid.arrange(basic.plot, mytheme_plot, nrow=1)
 ```
+
+![plot of chunk unnamed-chunk-39](ggplot2-figure/unnamed-chunk-39-1.png)
 
 
 Bonus: xkcd
@@ -688,7 +733,8 @@ Bonus: xkcd
 
 Bonus: xkcd
 ===
-```{r fig.width=3, fig.height=3,eval=F}
+
+```r
 #install.packages("xkcd")
 #install xkcd font: "http://simonsoftware.se/other/xkcd.ttf"
 #import font : font_import(pattern = "[X/x]kcd", prompt=FALSE)
@@ -702,7 +748,6 @@ yrange <- range(iris$Sepal.Width)
 print(basic.plot+
   xkcdaxis(xrange,yrange)+
     theme(text=element_text(family = "xkcd")))
-
 ```
 
 Bonus: xkcd
