@@ -970,6 +970,21 @@ CO2
 <p>WARNING: THERE ARE MULTIPLE CO2/co2 datasets
 (CASE SENSITIVE, use capitals)</p>
 
+<div class="centered">
+
+<script src="countdown.js" type="text/javascript"></script>
+<script type="application/javascript">
+var myCountdown2 = new Countdown({
+                                time: 600, 
+                                    width:150, 
+                                    height:80, 
+                                    rangeHi:"minute"    // <- no comma on last item!
+                                    });
+
+</script>
+
+</div>
+
 </div>
 
 </section>
@@ -1125,7 +1140,9 @@ print(basic_graph)
 <section data-transition="linear" data-transition-speed="default">
 <h3>Scatter plot as an R object with ggplot</h3>
 <div class="mediaInline slideContent" >
-<div class="fieldError"><span>Unrecognized slide field:</span> <code>note</code><br/></div><pre><code class="r">basic_graph &lt;- ggplot(data=iris,
+<p>Note: aes() and geom_point()</p>
+
+<pre><code class="r">basic_graph &lt;- ggplot(data=iris,
                     aes(x=Sepal.Length,
                         y=Sepal.Width))+
                       xlab(&quot;Sepal length (mm)&quot;)+
@@ -1193,7 +1210,7 @@ data()
 <script src="countdown.js" type="text/javascript"></script>
 <script type="application/javascript">
 var myCountdown2 = new Countdown({
-                                time: 300, 
+                                time: 600, 
                                     width:150, 
                                     height:80, 
                                     rangeHi:"minute"    // <- no comma on last item!
@@ -1293,7 +1310,7 @@ data()
 <script src="countdown.js" type="text/javascript"></script>
 <script type="application/javascript">
 var myCountdown3 = new Countdown({
-                                time: 300, 
+                                time: 600, 
                                     width:150, 
                                     height:80, 
                                     rangeHi:"minute"    // <- no comma on last item!
@@ -1468,8 +1485,8 @@ function commandsForSlide(indexh) {
       transition: 'linear',
       transitionSpeed: 'default',
       rtl: false,
-      width: 1920,
-      height: 1080,
+      width: 1024,
+      height: 768,
     
       dependencies: []
     });

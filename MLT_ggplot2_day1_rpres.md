@@ -2,8 +2,8 @@ ggplot2
 ========================================================
 author: Malie Lessard-Therrien and Etienne Low-Décarie 
 date: May 8, 2017
-width: 1920
-height: 1080
+width: 1024
+height: 768
 
 
 What is a graph?
@@ -149,6 +149,21 @@ CO2
 WARNING: THERE ARE MULTIPLE CO2/co2 datasets
 (CASE SENSITIVE, use capitals)
 
+<div class="centered">
+
+<script src="countdown.js" type="text/javascript"></script>
+<script type="application/javascript">
+var myCountdown2 = new Countdown({
+    							time: 600, 
+									width:150, 
+									height:80, 
+									rangeHi:"minute"	// <- no comma on last item!
+									});
+
+</script>
+
+</div>
+
 
 Grammar of graphics (gg)
 ===
@@ -266,6 +281,7 @@ print(basic_graph)
 
 Scatter plot as an R object with ggplot
 ===
+
 Note: aes() and geom_point()
 
 
@@ -332,7 +348,7 @@ WARNING: THERE ARE MULTIPLE CO2/co2 datasets
 <script src="countdown.js" type="text/javascript"></script>
 <script type="application/javascript">
 var myCountdown2 = new Countdown({
-    							time: 300, 
+    							time: 600, 
 									width:150, 
 									height:80, 
 									rangeHi:"minute"	// <- no comma on last item!
@@ -416,7 +432,7 @@ data()
 <script src="countdown.js" type="text/javascript"></script>
 <script type="application/javascript">
 var myCountdown3 = new Countdown({
-    							time: 300, 
+    							time: 600, 
 									width:150, 
 									height:80, 
 									rangeHi:"minute"	// <- no comma on last item!
