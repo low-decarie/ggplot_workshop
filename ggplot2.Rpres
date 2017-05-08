@@ -1,90 +1,63 @@
-<style>
-.small-code pre code {
-  font-size: 0.75em;
-}
-</style>
-
 ggplot2
 ========================================================
-author: Etienne Low-Décarie
-transition: rotate
-
-January 5, 2017  
-Presentation: https://low-decarie.github.io/ggplot_workshop/#/  
-Code: https://github.com/low-decarie/ggplot_workshop  
+author: Malie Lessard-Therrien and Étienne Low-Décarie 
+date: May 8, 2017
+width: 1920
+height: 1080
 
 
+What is a graph?
+========================================================
+
+- Explore and explain
+- Statistics and design combined
+- Communicating results
 
 
-
-Without R
+ggplot2
 ===
 
-![Without R](./ggplot2_images/without_r.png)
+Beautiful and flexible
 
-With R 
-===
-
-![With R](./ggplot2_images/with_r.png)
-
-
-
-Beautiful and flexible! 
-===
-
-![Pretty ggplots](./ggplot2_images/pretty_examples.png)
+![Pretty ggplots](./ggplot2_pres-figure/pretty_examples.png)
 
 ```{r fig.width=7, fig.height=6,echo=FALSE}
-# img <- readPNG("./ggplot2_images/pretty_examples.png")
+# img <- readPNG("./ggplot2_pres-figure/pretty_examples.png")
 #  grid.raster(img)
 ```
 
 Outline (ggplot2)
 ===
 
-1. Your first ggplot plot
-    + basic scatter plot 
-    + Exercise 1
-2. Grammar of graphics
-    + More advanced plots
-    + Available plot elements and when to use them
-    + Exercise 2
+Part I
 
-  
-***
+Your first ggplot plot
+- Basic scatter plot 
+- Exercise 1
 
-Tomorrow:
-3. Saving a plot
-  + Exercise 3
-  + Challenge
-4. Expanding ggplot    
-5. Fine tuning your plot
-    + colours
-    + themes
-6. Maps
+Grammar of graphics
+- Layer system
+- Aesthetics, Geometrics
+- Exercise 2
 
+***    
 
-A few pet peeves
-===
+Part II
 
-- Always work from a script
-- Use carriage returns and indentation
+Pretty graphs for presentation
+- More advanced plots
+- Fine tunning
+- Exercise 3
+    
 
-```{r eval=F}
-object <- function(argument1="value1",
-                   argument2="value2",
-                   argument3="value3")
-```
+Part III
 
-- Create your own new script
-  + refer to provided code only if needed
-  + don't just copy paste from the presentation
-
-```{r fig.width=7, fig.height=6,echo=FALSE}
-library(png)
-library(grid)
-```
-
+Adapting your graph for publishing
+- B&W
+- package cowplot
+- Saving a plot
+- Exercise 4
+- Maps
 
 
 Install/load ggplot2
@@ -96,77 +69,294 @@ require(ggplot2)
 ```
 
 
-
-
-Your first ggplot 
+Grammar of graphics (gg)
 ===
 
-A basic scatter plot
-```{r fig.width=3, fig.height=3, eval=F}
-qplot(data=iris,
-      x=Sepal.Length,
-      y=Sepal.Width)
-```
+2 principles:
+- distinc layers of graphical elements
+- meaningful plots using aesthetic mapping
 
 ***
 
-```{r fig.width=3, fig.height=3, echo=F}
-qplot(data=iris,
-      x=Sepal.Length,
-      y=Sepal.Width)
+![layers of a plot](./ggplot2_pres-figure/separate_elements.png)
+
+
+
+Graph elements
+===
+
+3 essentials:
+- Data (what you collected, in the right format)
+- Aesthetics (aes)
+- Geometries (geom)
+
+
+4 optionals:
+- Facets
+- Coordinates
+- Themes
+- Statistics
+
+
+***
+
+
+![layers of a plot](./ggplot2_pres-figure/graph_layers.png)
+
+```{r fig.width=12, fig.height=10, echo=FALSE}
+# img <- readPNG("./ggplot2_pres-figure/graph_layers.png")
+#  grid.raster(img)
 ```
 
 
-Categorical x-axis  
-===
-```{r fig.width=4, fig.height=4}
-qplot(data=iris,
-      x=Species,
-      y=Sepal.Width)
-```
+Available elements:
 
-Less basic scatter plot
+http://docs.ggplot2.org
+
+
+
+Iris dataset
 ===
+
+- Edgar Anderson
+- RA Fischer
+
+![Iris flowers](./ggplot2_pres-figure/iris_flowers.png)
+
+
+
+
 ```{r}
-?qplot
+head (iris)
 ```
 
-Arguments
-```
-x
-y
-…
-data
-xlab
-ylab
-main
+
+What to use when
+===
+
+Explore your data using function "qplot"
+- For you and your colleagues
+- Quick
+- Default settings can't be changed
+
+
+Explain a pattern (or lack of) in your data using function "ggplot"
+- For presentation or publication
+- All settings must be specified
+- Flexible (you have the control over all settings)
+
+
+
+Your first graph with ggplot2 
+===
+
+A basic scatter plot
+```{r fig.width=4, fig.height=4}
+basic_graph <- qplot(data=iris,
+                    x=Sepal.Length,
+                    y=Sepal.Width)
+
+print (basic_graph)
 ```
 
-Less basic scatter plot 
+
+Change axis names 
 ===
 
 ```{r fig.width=4, fig.height=4}
-qplot(data=iris,
+basic_graph_axis <- qplot(data=iris,
       x=Sepal.Length,
-      xlab="Sepal Width (mm)",
       y=Sepal.Width,
-      ylab="Sepal Length (mm)",
-      main="Sepal dimensions")
+      xlab="Sepal length (mm)",
+      ylab="Sepal width (mm)")
+
+print (basic_graph_axis)
 ```
 
-
-
-Exercise 1
+Exercice 1
 ===
 produce a basic plot with built in data
+
+```
+data()
+CO2
+?CO2
+
+```
+WARNING: THERE ARE MULTIPLE CO2/co2 datasets
+(CASE SENSITIVE, use capitals)
+
+Aesthetics
+===
+
+set with the aes() function
+- color ("outside" color)
+- fill ("inside" color)
+- shape (of points)
+- linetype
+- size (of points or line)
+- position (i.e., on the x and y axes)
+- group (that a point belongs to)
+- alpha (transparency of the point)
+
+
+Scatter plot with colour and shape
+===
+
+```{r eval=FALSE}
+basic_graph_axis_cs <- qplot(data=iris,
+      x=Sepal.Length,
+      y=Sepal.Width,
+      xlab="Sepal length (mm)",
+      ylab="Sepal width (mm)")+
+  aes(colour=Species,
+      shape=Species)
+
+print (basic_graph_axis_cs)
+```
+
+Same thing as:
+```{r eval=FALSE}
+basic_graph_axis_cs <- basic_graph_axis +
+  aes(colour=Species,
+      shape=Species)
+
+print (basic_graph_axis_cs)
+```
+
+***
+```{r fig.width=5, fig.height=4, echo=FALSE}
+basic_graph_axis_cs <- qplot(data=iris,
+      x=Sepal.Length,
+      y=Sepal.Width,
+      xlab="Sepal length (mm)",
+      ylab="Sepal width (mm)") +
+  aes(colour=Species,
+      shape=Species)
+
+print (basic_graph_axis_cs)
+```
+
+
+Geometic Objects 
+===
+
+set with the "geom_..." command
+
+Ex:
+- points (geom_point, for scatter plots, dot plots, etc)
+- lines (geom_line, for time series, trend lines, etc)
+- boxplot (geom_boxplot, for, well, boxplots!)
+- violins (geom_violin, region inside the violin contains all of the observed data)
+
+A plot must have at least one geom; there is no upper limit. You can add a geom to a plot using the + operator
+
+
+Geometric example  
+===
+
+Categorical x-axis
+
+```{r eval=FALSE}
+basic_plot_category <- qplot(data=iris,
+                              x=Species,
+                              y=Sepal.Width)
+  
+print (basic_plot_category)
+```
+.  
+.  
+.  
+```{r eval=FALSE}
+basic_plot_category_bx <- basic_plot_category+
+                          geom_boxplot ()
+
+print (basic_plot_category_bx)
+```
+***
+```{r fig.width=5, fig.height=5, echo=FALSE}
+basic_plot_category <- qplot(data=iris,
+                              x=Species,
+                              y=Sepal.Width)
+  
+print (basic_plot_category)
+```
+
+```{r fig.width=5, fig.height=5, echo=FALSE}
+basic_plot_category_bx <- basic_plot_category+
+                          geom_boxplot ()
+
+print (basic_plot_category_bx)
+```
+
+
+Geometric example  
+===
+
+Categorical x-axis, geom_violin
+
+![Violin fruit type](./ggplot2_pres-figure/Violin_FFD_ft.jpeg)
+
+
+
+Aesthetic and geometric example
+===
+Give new color and shape to each iris species
+
+Note: here aes() and geom_...() with ggplot function
+
+```{r}
+iris_color_graph <- ggplot (data=iris, aes (x= Sepal.Length, y=Sepal.Width, color=Species, shape=Species))+
+  xlab("Sepal lenght (mm)")+
+  ylab("Sepal width (mm)")+
+  geom_point(size = 3)+
+  geom_smooth(method="lm", se=F)+
+  scale_color_manual(breaks=c("setosa", "versicolor", "virginica"), 
+                     values=c("#6600CC", "#990099", "#FF3399"), 
+                     labels=c("Setosa", "Versicolor", "Virginica"))+
+  scale_shape_manual(breaks=c("setosa", "versicolor", "virginica"), 
+                     values=c(16, 17, 18), 
+                     labels=c("Setosa", "Versicolor", "Virginica"))
+
+print (iris_color_graph)
+```
+
+
+Help
+===
+
+- R-help
+- R Cookbook (ex color choices: http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/)
+- Cheatsheets (see https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+- Stackoverflow (google your question with ggplot2)
+
+
+Available elements
+===
+
+http://ggplot2.tidyverse.org/reference/
+
+<iframe src="http://ggplot2.tidyverse.org/reference/" width="1000" height="800">
+  <p>Your browser does not support iframes.</p>
+</iframe>
+
+
+
+Exercise 2
+===
+
+Fine tune your graph using built in data
+- play with aesthetics (aes)
+- use geometrics (geom_...)
+
+
 ```
 CO2
 ?CO2
-BOD
 data()
 ```
 WARNING: THERE ARE MULTIPLE CO2/co2 datasets
-(CASE SENSITIVE)
+(CASE SENSITIVE, use capitals)
 
 <div class="centered">
 
@@ -183,240 +373,203 @@ var myCountdown2 = new Countdown({
 
 </div>
 
-Grammar of graphics (gg)
+
+Theme
 ===
 
-A graphic is made of elements (layers)
+Changing font size
 
-- data
-- aesthetics (aes)
-- transformation
-- geoms (geometric objects)
-- axis (coordinate system)
-- scales
+```{r eval=F}
+iris_color_graph_fs <- iris_color_graph+
+  theme(axis.title.x=element_text(size=30),
+        axis.text.x=element_text(size=25))+
+  theme(axis.title.y=element_text(size=30),
+        axis.text.y=element_text(size=25))
 
+print (iris_color_graph_fs)
+```
 ***
+```{r echo=F}
+iris_color_graph_fs <- iris_color_graph+
+  theme(axis.title.x=element_text(size=30),
+        axis.text.x=element_text(size=25))+
+  theme(axis.title.y=element_text(size=30),
+        axis.text.y=element_text(size=25))
 
-![layers of a plot](./ggplot2_images/seperate_elements.png)
+print (iris_color_graph_fs)
+```
 
 
-Aesthetics (aes) make data visible:
+Facets
 ===
 
-+ x,y : position along the x and y axis
-+ colour: the colour of the point
-+ group: what group a point belongs to 
-+ shape: the figure used to plot a point
-+ linetype: the type of line used (solid, dashed, etc)
-+ size: the size of the point or line
-+ alpha: the transparency of the point 
+Divide the data graphically
 
-geometric objects(geoms)
+facet_grid(rows~columns)
+
+```{r eval=F}
+iris_facets <- iris_color_graph + 
+              facet_grid(. ~ Species)
+
+print (iris_facets)
+```
+***
+```{r echo=F}
+iris_facets <- iris_color_graph + 
+              facet_grid(. ~ Species)
+
+print (iris_facets)
+```
+
+
+Coordinates
 ===
 
-+ point: scatterplot
-+ line: line plot, where lines connect points by increasing x value
-+ path: line plot, where lines connect points in sequence of appearance
-+ boxplot: box-and-whisker plots, for categorical y data
-+ bar: barplots
-+ histogram: histograms (for 1-dimensional data)
-
-Single element edit
-===
-
-Editing an element produces a new graph
-e.g. just change the coordinate system
+Change the coordinate system
 
 
-```{r fig.width=3, fig.height=3,echo=FALSE}
-DF <- data.frame(variable = LETTERS[1:10], value = sample(10,
-                                                 replace = TRUE))
+```{r eval=FALSE}
+DF <- data.frame(variable = LETTERS[1:10], value = sample(10, replace = TRUE))
 
-p_bar <- ggplot(data=DF, 
+bar_graph <- ggplot(data=DF, 
                 aes(x=variable,
-              fill=variable,
-              y=value))+
+                    y=value,
+                    fill=variable))+
                 geom_bar(stat="identity")
-print(p_bar)
 
-p_polar <- p_bar + coord_polar()
-
-print(p_polar)
+print(bar_graph)
 ```
 
-
-How it works
-===
-
-- 1. create a simple plot object
 ```{r eval=FALSE}
-plot.object<-qplot()
-or
-plot.object<-ggplot()
+polar_graph <- ggplot(data=DF, 
+                aes(x=variable,
+                fill=variable,
+                y=value))+
+                geom_bar(stat="identity") + 
+                coord_polar()
+
+print(polar_graph)
 ```
-- 2. add graphical layers/complexity
-```{r eval=FALSE}
-plot.object<-plot.object+layer()
-```
-- 3. repeat step 2 until satisfied  
-- 4. print your object to screen (or to graphical device)  
-```{r  eval=FALSE}
-print(plot.object)
-```
+***
+```{r echo=FALSE}
+DF <- data.frame(variable = LETTERS[1:10], value = sample(10, replace = TRUE))
 
+bar_graph <- ggplot(data=DF, 
+                aes(x=variable,
+                fill=variable,
+                y=value))+
+                geom_bar(stat="identity")
 
-Scatter plot as an R object
-===
-
-```{r fig.width=3, fig.height=3,echo=T}
-basic.plot<-qplot(data=iris,
-                  x=Sepal.Length,
-                  xlab="Sepal Width (mm)",
-                  y=Sepal.Width,
-                  ylab="Sepal Length (mm)",
-                  main="Sepal dimensions")
-
-print(basic.plot)
+print(bar_graph)
 ```
 
+```{r echo=FALSE}
+polar_graph <- ggplot(data=DF, 
+                aes(x=variable,
+                fill=variable,
+                y=value))+
+                geom_bar(stat="identity") + 
+                coord_polar()
 
-Using ggplot function
-===
-
-more powerful, more complicated
-Note: aes() and geom_point()
-
-```{r fig.width=4, fig.height=4}
-basic.plot<- ggplot(data=iris)+
-               aes(x=Sepal.Length,
-                  xlab="Sepal Width (mm)",
-                  y=Sepal.Width,
-                  ylab="Sepal Length (mm)",
-                  main="Sepal dimensions")+
-  geom_point()
+print(polar_graph)
 ```
-now required to use stat=""
-
-
-
-Scatter plot with colour and shape
-===
-
-```{r fig.width=3, fig.height=3,echo=T}
-basic.plot <- basic.plot+
-              aes(colour=Species,
-                  shape=Species)
-
-print(basic.plot)
-```
-
-
-Scatter plot with linear regression
-===
-
-Add a geom (eg. linear smooth)
-
-```{r fig.width=3, fig.height=3,echo=T}
-linear.smooth.plot <- basic.plot+
-			  geom_smooth(method="lm", se=F)
-                         print(linear.smooth.plot)
-```
-
-
-Exercise 2
-===
-
-produce a colorful plot containing linear regressions with built in data
-
-```
-CO2
-?CO2
-msleep
-?msleep
-OrchardSprays
-data()
-```
-<div class="centered">
-
-<script src="countdown.js" type="text/javascript"></script>
-<script type="application/javascript">
-var myCountdown3 = new Countdown({
-    							time: 300, 
-									width:150, 
-									height:80, 
-									rangeHi:"minute"	// <- no comma on last item!
-									});
-
-</script>
-
-</div>
-
-
-
-
-Available elements
-===
-
-http://docs.ggplot2.org
-
-<iframe src="http://docs.ggplot2.org" width="1000" height="800">
-  <p>Your browser does not support iframes.</p>
-</iframe>
-
-Resources
-===
-
-cheatsheets: https://www.rstudio.com/resources/cheatsheets/
-
-<iframe src="https://www.rstudio.com/resources/cheatsheets/" width="1000"  height="800">
-  <p>Your browser does not support iframes.</p>
-</iframe>
 
 
 Exercise 3
 ===
 
-Explore geoms and other plot elements with the data you have used
+Explore graph elements with the data you have used
 and/or your own data
-
-```
-msleep
-?msleep
-OrchardSprays
-data()
-```
-<div class="centered">
-
-<script src="countdown.js" type="text/javascript"></script>
-<script type="application/javascript">
-var myCountdown3 = new Countdown({
-    							time: 300, 
-									width:150, 
-									height:80, 
-									rangeHi:"minute"	// <- no comma on last item!
-									});
-
-</script>
-
-</div>
+- theme
+- facets
+- coordinates
 
 
-
-
-
-Tomorrow
+Graph for publication
 ===
 
-3. Saving a plot
-  + Exercise 3
-  + Challenge
-4. Expanding ggplot    
-5. Fine tuning your plot
-    + colours
-    + themes
-6. Maps (time permitting)
+B&W background using theme_bw ()
+```{r eval=F}
+iris_bw <- iris_color_graph+
+  theme_bw()
+  
+print(iris_bw)
+```
+***
+```{r  echo=F}
+iris_bw <- iris_color_graph+
+  theme_bw()
+  
+print(iris_bw)
+```
+
+Graph for publication
+===
+
+B&W using theme_classic ()
+```{r eval=F}
+iris_classic <- iris_color_graph+
+           theme_classic()
+
+print (iris_classic)
+```
+***
+```{r echo=F}
+iris_classic <- iris_color_graph+
+           theme_classic()
+
+print (iris_classic)
+```
 
 
+Graph for publication with cowplot
+===
+
+- simple add-on to ggplot2
+- provide a publication-ready theme for ggplot2
+- minimum amount of fiddling with sizes of axis labels, plot backgrounds, etc
+
+see https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html
+
+
+```{r}
+if(!require(cowplot)){install.packages("cowplot")}
+require(cowplot)
+```
+
+
+Cowplot, B&W graph 
+===
+
+Once cowplot package is installed and read, your graph background is B&W by default
+
+```{r eval=F}
+iris_cowplot <- iris_color_graph
+
+print (iris_cowplot)
+```
+***
+```{r echo=F}
+iris_cowplot <- iris_color_graph
+
+print (iris_cowplot)
+```
+
+
+Cowplot, multiple graphs
+===
+
+Label and align multiple graphs
+
+```{r eval=F}
+fig.1 <- plot_grid(iris_bw, iris_cowplot, labels = c("a)", "b)"), nrow = 2, align = "v")
+print (fig.1)
+```
+***
+```{r echo=F}
+fig.1 <- plot_grid(iris_bw, iris_cowplot, labels = c("a)", "b)"), nrow = 2, align = "v")
+print (fig.1)
+```
 
 
 Saving plots
@@ -424,14 +577,15 @@ Saving plots
 
 ```{r  eval=FALSE}
 pdf("./Plots/todays_plots.pdf")
-  print(basic.plot)
-  print(plot.with.linear.smooth)
-  print(categorical.plot)
-  print(CO2.plot)
+  print(basic_graph_cs)
+  print(iris_color_graph_fs)
+  print(polar_graph)
+  print(bar_graph)
+  print (iris_cowplot)
 graphics.off()
 ```
 
-all other base save functions available:  
+all other R-base save functions available:  
 `bmp()`, `jpeg()`, etc
 
 Saving plots
@@ -440,285 +594,11 @@ Saving plots
 ggsave: saves last plot and guesses format from file name
 
 ```{r  eval=FALSE}
-ggsave("./Plots/todays_plots.jpeg", basic.plot)
+ggsave("./Plots/todays_plots.jpeg", iris_facets)
 ```
 
-Using facets and groups: the basic plot
+Exercise 4
 ===
 
-```{r fig.width=8, fig.height=4,echo=T}
-CO2.plot<-qplot(data=CO2,
-                x=conc,
-                y=uptake,
-                colour=Treatment)
+Make a graph in B&W background and save your favorite graphs of the day
 
-print(CO2.plot)
-```
-
-Facets
-===
-
-```{r  eval=FALSE}
-plot.object<-plot.object + facet_grid(rows~columns)
-```
-                         
-                         
-```{r fig.width=8, fig.height=4,echo=T}
-CO2.plot<-CO2.plot+facet_grid(.~Type)
-print(CO2.plot)
-```
-
-Groups
-===
-
-Problems when adding the geom_line
-
-```{r fig.width=8, fig.height=4,echo=T}
-print(CO2.plot+geom_line())
-```
-
-Groups
-===
-
-Solution: specify groups
-
-```{r fig.width=8, fig.height=4,echo=T}
-CO2.plot<-CO2.plot+geom_line(aes(group=Plant))
-print(CO2.plot)
-```
-
-Using the right tool for the right situation
-===
-base R `plot` function has methods for many different object types
-
-```{r fig.width=3, fig.height=3,echo=T}
-plot(iris)
-```
-
-
-Using the right tool for the right situation
-===
-
-base R `plot` function has methods for many different object types
-
-```{r fig.width=3, fig.height=3,echo=T}
-lm.SR <- lm(sr ~ pop15 + pop75 + dpi + ddpi,
-            data = LifeCycleSavings)
-plot(lm.SR)
-```
-
-
-Challenge
-===
-
-Find an interesting data set on Dryad.org, reproduce a figure from the article using ggplot2
-
-Example: try to reproduce figure 1 and 4 from
-Low-Décarie, E., Fussmann, G. F., Bell, G., Low-Decarie, E., Fussmann, G. F., Bell, G., Low-Décarie, E., Fussmann, G. F. & Bell, G. 2014 Aquatic primary production in a high-CO2 world. Trends Ecol. Evol. 29, 1–10.    
-[paper](http://www.sciencedirect.com/science/article/pii/S0169534714000433)  
-[data](http://datadryad.org/handle/10255/dryad.60481)  
-full scripts also available on github (old ugly code!)
-
-
-Extending ggplot
-===
-
-ggplot can be extended for plotting specific classes of objects
-
-`autoplot`
-and
-`fortify`
-
-
-Extending ggplot
-===
-
-`ggfortify` provides `autoplot`and  
-`fortify` for common models
-
-```{r fig.width=3, fig.height=3,echo=T, eval=F}
-require(ggfortify)
-autoplot(lm.SR)
-```
-
-***
-
-```{r fig.width=5, fig.height=5,echo=F}
-require(ggfortify)
-autoplot(lm.SR)
-```
-
-===
-
-```{r fig.width=3, fig.height=3,echo=T}
-help(package=ggfortify)
-```
-
-
-
-Fine tunning: Scales
-===
-class: small-code
-
-```{r fig.width=3, fig.height=3,echo=T}
-CO2.plot +
-  scale_y_continuous(name = "CO2 uptake rate",
-                     breaks = seq(5,50, by= 10),
-                     labels = seq(5,50, by= 10), 
-                     trans="log10")
-```
-
-Fine tunning: Scales
-===
-
-```{r fig.width=3, fig.height=3,echo=T}
-CO2.plot+
-  scale_colour_brewer()
-```
-
-Fine tunning: Scales
-===
-
-```{r fig.width=3, fig.height=3,echo=T}
-CO2.plot+
-  scale_colour_manual(values=c("nonchilled"="red",
-                               "chilled"="blue"))
-```
-
-
-Fine tunning: Scales
-===
-Bonus!!! Wes Anderson colour palette
-
-![darjeelinglimited](./ggplot2_images/darjeelinglimited.jpg)
-
-Fine tunning: Scales
-===
-Bonus!!! Wes Anderson colour palette
-
-```{r fig.width=3, fig.height=3,echo=T}
-if(!require(devtools)) {install.packages("devtools")}
-require(devtools)
-if(!require(wesanderson)){
-devtools::install_github("karthik/wesanderson")}
-require(wesanderson)
-```
-
-Fine tunning: Scales
-===
-Bonus!!! Wes Anderson colour palette
-
-```{r fig.width=3, fig.height=3,echo=T}
-require(wesanderson)
-basic.plot + 
-  scale_color_manual(values = wesanderson::wes_palette("Darjeeling",3)) 
-```
-
-Fine tuning: Multiple plots
-===
-
-
-```{r fig.width=5, fig.height=5,echo=T}
-if(!require(gridExtra)) {install.packages("gridExtra")}
-require(gridExtra)
-
-grid.arrange(basic.plot, CO2.plot)
-```
-
-Fine tuning: Multiple plots
-===
-class: small-code
-
-Sub-plots can be aligned and matched in size
-
-```{r fig.width=5, fig.height=5,echo=T}
-basic.plot.table <- ggplot_gtable(ggplot_build(basic.plot))
-CO2.plot.table <- ggplot_gtable(ggplot_build(CO2.plot))
-maxWidth = grid::unit.pmax(basic.plot.table$widths[2:3],
-                           CO2.plot.table$widths[2:3])
-basic.plot.table$widths[2:3] <- as.list(maxWidth)
-CO2.plot.table$widths[2:3] <- as.list(maxWidth)
-```  
-
-Fine tuning: Multiple plots
-===
-Sub-plots can be aligned and matched in size
-
-```{r fig.width=5, fig.height=5,echo=T}
-grid.arrange(basic.plot.table, 
-             CO2.plot.table,
-             ncol=1)
-```
-
-Fine tuning: Themes
-===
-
-`theme_set(theme())`  
-or  
-`plot+theme()`
-
-```{r fig.width=8, fig.height=3,echo=T}
-dark <- basic.plot+theme_dark()
-minimal <- basic.plot+theme_minimal()
-
-grid.arrange(basic.plot, dark, minimal, nrow=1)
-```
-
-
-Fine tuning: Themes
-===
-class: small-code
-
-```{r fig.width=8, fig.height=3,echo=T}
-mytheme <- theme_grey() +
- theme(plot.title = element_text(colour = "red"))
-mytheme_plot <- basic.plot + mytheme
-
-grid.arrange(basic.plot, mytheme_plot, nrow=1)
-```
-
-
-Bonus: xkcd
-===
-
-<iframe src="http://xkcd.com" width="1000" height="800">
-  <p>Your browser does not support iframes.</p>
-</iframe>
-
-
-Bonus: xkcd
-===
-```{r fig.width=3, fig.height=3,eval=F}
-#install.packages("xkcd")
-#install xkcd font: "http://simonsoftware.se/other/xkcd.ttf"
-#import font : font_import(pattern = "[X/x]kcd", prompt=FALSE)
-#loadfonts()
-require(xkcd)
-require(extrafont)
-
-xrange <- range(iris$Sepal.Length)
-yrange <- range(iris$Sepal.Width)
-
-print(basic.plot+
-  xkcdaxis(xrange,yrange)+
-    theme(text=element_text(family = "xkcd")))
-
-```
-
-Bonus: xkcd
-===
-
-
-![xkcd plot](./ggplot2_images/xkcd_plot.png)
-
-
-Challenge
-===
-
-Using figure from previous challenge (or other dryad.org paper/data), edit figure to match a journal's style requirements
-
-Example: try to reproduce Figure 3 in:
-Lucek K, Sivasundar A, Roy D, Seehausen O (2013) Repeated and predictable patterns of ecotypic differentiation during a biological invasion: lake-stream divergence in parapatric Swiss stickleback. Journal of Evolutionary Biology 26(12): 2691–2709. 
-
-[paper](http://dx.doi.org/10.1111/jeb.12267)  
-[data](http://dx.doi.org/10.5061/dryad.0nh60)  
